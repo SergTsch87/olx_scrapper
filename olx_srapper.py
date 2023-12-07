@@ -57,6 +57,39 @@ def login_to_olx(driver):
     btn_next.click()
 
 
+def get_data_with_page(driver, base_url):
+    driver.get(base_url)
+
+    # Close pan cookies
+    wait_cookies = WebDriverWait(driver, 40)
+    wait_cookies.until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '.css-1lla6pe button'))
+    ).click()
+
+    time.sleep(5)
+    driver.maximize_window()
+
+    driver.execute_script("window.scrollBy({top: 400, left: 0, behavior: 'smooth'})")
+    time.sleep(5)
+
+    # # Очікуємо, доки кнопка, яка викликає номер телефону, стане видимою та клікабельною
+    phone_button = WebDriverWait(driver, 30).until(
+        EC.element_to_be_clickable((By.XPATH, "/html/body/div/div[2]/div[2]/div[3]/div[2]/div[1]/div[5]/div[1]/button[2]"))
+    )
+
+    time.sleep(5)
+    # Натискаємо на кнопку, що викликає номер телефону
+    phone_button.click()
+
+    # Очікуємо, доки номер телефону стане видимим
+    phone_element = WebDriverWait(driver, 30).until(
+        EC.visibility_of_element_located((By.XPATH, "/html/body/div/div[2]/div[2]/div[3]/div[2]/div[1]/div[5]/div[1]/button[2]/span/a"))
+    )
+
+    data_from_page = {'phone_number': phone_element.text}
+    return data_from_page
+
+
 def main():
     driver = webdriver.Chrome()
     
