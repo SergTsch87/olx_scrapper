@@ -8,9 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 from dotenv import load_dotenv
 
-
+# Завантажуємо значення констант з файлу ".env"
 load_dotenv()
-
 EMAIL = os.environ.get('EMAIL')
 PASSWORD = os.environ.get('PASSWORD')
 
@@ -29,7 +28,7 @@ def login_to_olx(driver):
     )
 
     time.sleep(1)
-    # Відкриємо вікно на весь розмір
+    # Розгортаємо вікно браузера на повну
     driver.maximize_window()
     time.sleep(2)
 
@@ -44,13 +43,11 @@ def login_to_olx(driver):
     )
 
     # Вводимо email до поля input
-    email = EMAIL    
-    input_type_email.send_keys(email)
+    input_type_email.send_keys(EMAIL)
 
     # Вводимо password до поля input
-    password = PASSWORD
     input_type_password = driver.find_element(By.XPATH, "/html/body/div/div/div/div/div/main/div/div[3]/div/form/div[2]/div/div/div/input")
-    input_type_password.send_keys(password)
+    input_type_password.send_keys(PASSWORD)
 
     # Натискаємо на кнопку "Увійти":
     btn_next = driver.find_element(By.XPATH, '/html/body/div/div/div/div/div/main/div/div[3]/div/form/button[2]')
@@ -78,7 +75,7 @@ def get_data_with_page(driver, base_url):
     )
 
     time.sleep(5)
-    # Натискаємо на кнопку, що викликає номер телефону
+    # Натискаємо на цю кнопку
     phone_button.click()
 
     # Очікуємо, доки номер телефону стане видимим
